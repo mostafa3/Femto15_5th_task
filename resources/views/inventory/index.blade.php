@@ -16,23 +16,25 @@
   </div>
 </div>
 
-
+@can('create','App\Inventory')
   <p class="lg">
     Here is our Inventories so we can edit or delete or <button class="btn btn-link"><a href="{{action('InventoryController@create')}}">Add New Inventory</a></button>
   </p>
-
+@endcan
 
     @if($inventories->count())
 
             <table class="table table-hover">
               <thead>
                 <th>NAME</th>
+                <th>Manager</th>
                 <th></th>
               </thead>
               <tbody>
   @foreach($inventories as $inventory)
     <tr>
       <td>{{$inventory->name}}</td>
+      <td>{{$inventory->manager->name ?? ''}}</td>
       <td><a href="{{action('InventoryController@show',['inventory'=>$inventory->id])}}"><i class="fas fa-external-link-square-alt icon-large"></i></a></td>
     </tr>
 

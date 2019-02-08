@@ -15,11 +15,11 @@
     @include('inc.messages')
   </div>
 </div>
-
+ @can('create','App\Item')
   <p class="lg">
     Here is our Items so we can edit or delete or <button class="btn btn-link"><a href="{{action('ItemController@create')}}">Add New Item</a></button>
   </p>
-
+@endcan
 
     @if($items->count())
 
@@ -28,7 +28,7 @@
                 <th>NAME</th>
                 <th>Supplier</th>
                 <th>Unit</th>
-                
+                <th>Available</th>
                 <th></th>
               </thead>
               <tbody>
@@ -37,7 +37,7 @@
             <td>{{$item->name}}</td>
             <td>{{$item->supplier->name}}</td>
             <td>{{$item->unit}}</td>
-
+            <td>{{$item->available()}}</td>
 
             <td><a href="{{action('ItemController@show',['item'=>$item->id])}}}"><i class="fas fa-external-link-square-alt icon-large"></i></a></td>
           </tr>

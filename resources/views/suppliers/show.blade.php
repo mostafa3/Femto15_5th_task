@@ -53,10 +53,27 @@
             </p>
           @endif
 
-
+          @can('update',$supplier)
             <button type="button" class="btn btn-link"><a href="{{action('SupplierController@edit',['$supplier'=>$supplier->id])}}">Edit</a></button>
+          @endcan
+
+          @if($supplier->items->count())
+            <p>
+              <h4 class="text-center">Items</h4>
+            </p>
 
 
+            <ul class="">
+              @foreach($supplier->items->all() as $item)
+                  <li>
+                    {{$item->name}}
+                  </li>
+              @endforeach
+            </ul>
+
+
+          @endif
+        <!-- Items he supply -->
 
 
 

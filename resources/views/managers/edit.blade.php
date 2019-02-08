@@ -9,7 +9,7 @@
 
   @include('inc.sidebar')
 
-
+@can('delete',$inventory_manager)
   <!-- Delete Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-
+@endcan
 
 
     <div class='container'>
@@ -123,8 +123,9 @@
         </div>
 
          <button type="submit" class="btn btn-primary">Update</button>
-
+         @can('delete',$inventory_manager)
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" onclick="delete({{$inventory_manager->id}})">Delete </button>
+         @endcan
 
 
 
@@ -135,6 +136,4 @@
 
 
   </div> <!-- Container -->
-
-<script src="{{ asset('js/delete_modal.js') }}"></script>
 @endsection

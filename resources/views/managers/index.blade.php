@@ -16,11 +16,11 @@
   </div>
 </div>
 
-
+@can('create','App\User')
   <p class="lg">
     Here is our Managers so we can edit or delete or <button class="btn btn-link"><a href="{{action('InventoryManagerController@create')}}">Add New Manager</a></button>
   </p>
-
+@endcan
 
     @if($managers->count())
 

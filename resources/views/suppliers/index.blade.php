@@ -16,11 +16,11 @@
   </div>
 </div>
 
-
+@can('create','App\Supplier')
   <p class="lg">
     Here is our Suppliers so we can edit or delete or <button class="btn btn-link"><a href="{{action('SupplierController@create')}}">Add New Supplier</a></button>
   </p>
-
+@endcan
 
     @if($suppliers->count())
 

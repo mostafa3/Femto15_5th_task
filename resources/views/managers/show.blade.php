@@ -7,7 +7,7 @@
 
 
 @section('css')
-  <link href="{{asset('css/inventory_show.css')}}" rel="stylesheet">
+  <link href="{{asset('css/show.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')

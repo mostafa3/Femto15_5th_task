@@ -20,9 +20,10 @@ class InventoryManagerController extends Controller
 
     public function index()
     {
-
+        if(\Gate::allows('view_all',User::class))
           $managers = Role::where('role_name','Inventory Manager')->first()->users;
-
+        elseif(\Gate::allows('view_himself',User::class))
+          $managers = collect([Auth::user()]);
 
         return view('managers.index',compact('managers'));
     }
@@ -31,7 +32,8 @@ class InventoryManagerController extends Controller
 
     public function create()
     {
-
+      //admin only
+      $this->authorize('create',User::class);
         $inventories = Inventory::where('inventory_manager_id',NULL)->get();
         return view('managers.create',compact('inventories'));
     }
@@ -39,7 +41,8 @@ class InventoryManagerController extends Controller
 
     public function store(User $manager)
     {
-
+      //admin only
+      $this->authorize('create',Auth::user());
       $inventory = Inventory::find(request()['inventory']);
 
        $manager = $manager->addManager( request()->validate([
@@ -56,14 +59,17 @@ class InventoryManagerController extends Controller
 
     public function show(User $inventory_manager)
     {
+      //admin or the same manager
 
+      $this->authorize('view', $inventory_manager);
         return   view('managers.show',['inventory_manager'=>$inventory_manager]) ;
     }
 
 
     public function edit(User $inventory_manager)
     {
-
+      //admin or the same manager
+      $this->authorize('update', $inventory_manager);
 
       $inventories = Inventory::where('inventory_manager_id',NULL)->get();
         return  view('managers.edit',compact('inventory_manager','inventories')) ;
@@ -72,7 +78,11 @@ class InventoryManagerController extends Controller
 
     public function update(User $inventory_manager)
     {
-    
+      // admin or the same manager
+      $this->authorize('update', $inventory_manager);
+// managers only not admin
+
+
       $inventory_manager->edit(
         request()->validate([
           'name' => 'required',
@@ -88,6 +98,7 @@ class InventoryManagerController extends Controller
 
     public function destroy(User $inventory_manager)
     {
+      $this->authorize('delete',$inventory_manager);
       $inventory_manager->delete();
       return redirect(action('InventoryManagerController@index'))->with('success','Manager Deleted!');
     }

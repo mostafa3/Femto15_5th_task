@@ -2,7 +2,10 @@
     padding-top: 130px;
 }
 
-i.fa-warehouse{
+i.fa-user-tie,
+i.fa-warehouse,
+i.fa-box
+ {
     font-size: 215px;
 }
 

@@ -102,4 +102,5 @@
 
   </div> <!-- Container -->
 
+<script src="{{ asset('js/delete_modal.js') }}"></script>
 @endsection

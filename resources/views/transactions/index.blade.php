@@ -16,11 +16,11 @@
   </div>
 </div>
 
-
+ @can('create','App\Transaction')
   <p class="lg">
     Here is our Transactions so we can <button class="btn btn-link"><a href="{{action('TransactionController@create')}}">Add New Transaction</a></button>
   </p>
-
+@endcan
 
     @if($transactions->count())
 
