@@ -11,7 +11,10 @@
             <li class="nav-item ">
               <a class="nav-link" href="{{action('InventoryController@index')}}">Inventories <span class="sr-only"></span></a>
             </li>
-            
+            <li class="nav-item ">
+              <a class="nav-link" href="{{action('InventoryManagerController@index')}}">Inventory Managers <span class="sr-only"></span></a>
+            </li>
+
         </ul>
 
         <!-- Right Side Of Navbar -->

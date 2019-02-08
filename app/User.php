@@ -30,10 +30,49 @@ class User extends Authenticatable
     ];
 
 
+    public function is_admin(){
+        return $this->role->role_name === 'Admin';
+    }
+
+    public function is_manager(){
+        return $this->role->role_name === 'Inventory Manager';
+    }
+
+
+
     public function role(){
       return $this->belongsTo(Role::class);
     }
-    
+
+    public function inventory(){
+      return $this->hasOne(Inventory::class,'inventory_manager_id');
+    }
+
+    public function addManager($manager){
+      $manager_role =  Role::where('role_name','Inventory Manager')->first();
+
+      $user = $manager_role->users()->create([
+        'name' => $manager['name'],
+        'email' => $manager['email'],
+        'password' => bcrypt($manager['password']),
+      ]);
+
+
+      $inventory = Inventory::find($manager['inventory']);
+      $user->inventory()->save($inventory);
+
+      return $user;
+    }
+
+    public function edit($manager){
+
+        $manager['password'] = $manager['password'] ? bcrypt($manager['password']) : $this->password;
+
+      $this->update($manager);
+
+    }
+
+
 
 
 }
