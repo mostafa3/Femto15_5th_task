@@ -26,7 +26,7 @@ class SupplierController extends Controller
 
     public function create()
     {
-      $this->authorize('create',Supplier::class);
+      
         return view('suppliers.create');
     }
 
@@ -76,7 +76,7 @@ class SupplierController extends Controller
 
     public function destroy(Supplier $supplier)
     {
-    
+
         $supplier->delete();
         return redirect(action('SupplierController@index'))->with('success','Supplier Deleted!');
     }
