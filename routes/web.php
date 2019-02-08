@@ -22,3 +22,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/inventories', 'InventoryController');
 Route::resource('/inventory_managers', 'InventoryManagerController');
 Route::resource('/suppliers', 'SupplierController');
+Route::resource('/items', 'ItemController');
