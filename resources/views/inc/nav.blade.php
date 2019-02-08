@@ -20,6 +20,9 @@
             <li class="nav-item ">
               <a class="nav-link" href="{{action('ItemController@index')}}">Items <span class="sr-only"></span></a>
             </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="{{action('TransactionController@index')}}">Transactions <span class="sr-only"></span></a>
+            </li>
 
         </ul>
 

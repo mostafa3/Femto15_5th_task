@@ -23,3 +23,8 @@ Route::resource('/inventories', 'InventoryController');
 Route::resource('/inventory_managers', 'InventoryManagerController');
 Route::resource('/suppliers', 'SupplierController');
 Route::resource('/items', 'ItemController');
+
+
+Route::get('transactions','TransactionController@index');
+Route::get('transactions/create','TransactionController@create');
+Route::post('transactions','TransactionController@store');

@@ -12,7 +12,15 @@ class Supplier extends Model
       return $this->belongsTo(Inventory::class);
     }
 
-  
+    public function items(){
+      return $this->hasMany(Item::class);
+    }
+
+    // transactions through items
+    public function transactions()
+    {
+        return $this->hasManyThrough(Transaction::class, Item::class,'supplier_id','item_id');
+    }
 
     public function addSupplier($supplier){
       $inventory = Auth::user()->inventory;

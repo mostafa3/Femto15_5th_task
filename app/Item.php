@@ -14,6 +14,9 @@ class Item extends Model
       return $this->belongsTo(Supplier::class);
     }
 
+    public function transactions(){
+      return $this->hasMany(Transaction::class);
+    }
 
 
     public function addItem($item){
@@ -22,6 +25,31 @@ class Item extends Model
     }
 
 
+    public function add_transactions(){
+      return $this->transactions->filter(function($transaction, $key){
+        return $transaction->type == 'add';
+      });
+
+    }
+
+    public function consume_transactions(){
+      return $this->transactions->filter(function($transaction, $key){
+        return $transaction->type == 'consume';
+      });
+
+    }
+
+
+    public function available(){
+
+      $added = $this->add_transactions();
+
+      $consumed = $this->consume_transactions();
+
+      return $added->sum('amount') - $consumed->sum('amount');
+
+
+    }
 
 
 

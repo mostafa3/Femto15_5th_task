@@ -29,7 +29,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
     public function is_admin(){
         return $this->role->role_name === 'Admin';
     }
@@ -47,6 +46,28 @@ class User extends Authenticatable
     public function inventory(){
       return $this->hasOne(Inventory::class,'inventory_manager_id');
     }
+
+
+    // supplier through inventory
+    public function suppliers()
+    {
+        return $this->hasManyThrough(Supplier::class, Inventory::class,'inventory_manager_id','inventory_id');
+        // return $this->inventory->supplier;
+    }
+
+    public function items(){
+      return $this->inventory->items;
+    }
+
+    public function transactions(){
+      $transactions = collect();
+      foreach( $this->items() as $item ){
+        $transactions->push($item->transactions) ;
+      }
+
+      return $transactions->flatten();
+    }
+
 
     public function addManager($manager){
       $manager_role =  Role::where('role_name','Inventory Manager')->first();
@@ -70,7 +91,12 @@ class User extends Authenticatable
 
       $this->update($manager);
 
+
+
+
     }
+
+
 
 
 
