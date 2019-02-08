@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 //deactivate register for now
-Route::get('register',function(){return redirect('/')});
+Route::get('register',function(){return redirect('/');});
 
 Route::get('/home', 'HomeController@index')->name('home');
 
