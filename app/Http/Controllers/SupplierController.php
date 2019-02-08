@@ -3,82 +3,81 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+
+use App\Supplier;
 
 class SupplierController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+    public function __construct(){
+      $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        $suppliers = Supplier::all();
+
+        return view('suppliers.index',compact('suppliers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function create()
     {
-        //
+      $this->authorize('create',Supplier::class);
+        return view('suppliers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(Supplier $supplier)
     {
-        //
+
+      $supplier->addSupplier(request()->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:suppliers',
+        'phone' => 'required|numeric|min:6|unique:suppliers',
+        'information' => 'nullable'
+      ]));
+
+      return redirect(action('SupplierController@index'))->with('success','Supplier Created !');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show(Supplier $supplier)
     {
-        //
+
+
+        return view('suppliers.show',['supplier'=>$supplier]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit(Supplier $supplier)
     {
-        //
+
+        return view('suppliers.edit',['supplier'=>$supplier]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(Supplier $supplier)
     {
-        //
+
+      $supplier->update(request()->validate([
+        'name' => 'required',
+        'email' => ['required','email','unique:suppliers,email,'.$supplier->id],
+        'phone' => ['required','min:6','unique:suppliers,phone,'.$supplier->id],
+        'information' => 'nullable'
+      ]));
+
+      return redirect(action('SupplierController@index'))->with('success','Supplier Updated !');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Supplier $supplier)
     {
-        //
+    
+        $supplier->delete();
+        return redirect(action('SupplierController@index'))->with('success','Supplier Deleted!');
     }
 }

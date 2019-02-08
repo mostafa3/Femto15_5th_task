@@ -14,6 +14,9 @@
             <li class="nav-item ">
               <a class="nav-link" href="{{action('InventoryManagerController@index')}}">Inventory Managers <span class="sr-only"></span></a>
             </li>
+            <li class="nav-item ">
+              <a class="nav-link" href="{{action('SupplierController@index')}}">Suppliers <span class="sr-only"></span></a>
+            </li>
 
         </ul>
 
