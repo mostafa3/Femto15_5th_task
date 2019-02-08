@@ -1,0 +1,23 @@
+.container {
+    padding-top: 130px;
+}
+
+i.fa-warehouse{
+    font-size: 215px;
+}
+
+div#user-information {
+    margin-top: 42px;
+}
+
+i.fas.fa-angle-right {
+    margin: auto 25px;
+    color: red;
+}
+
+span.inf-title{
+  color: red;
+}
+table{
+      margin-top: 30px;
+}
