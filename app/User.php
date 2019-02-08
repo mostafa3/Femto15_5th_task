@@ -11,33 +11,27 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         'name', 'email', 'password','role_id'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    // check admin role
     public function is_admin(){
         return $this->role->role_name === 'Admin';
     }
 
+    // check manager role
     public function is_manager(){
         return $this->role->role_name === 'Inventory Manager';
     }
 
-
+    // relations
 
     public function role(){
       return $this->belongsTo(Role::class);
@@ -48,17 +42,21 @@ class User extends Authenticatable
     }
 
 
-    // supplier through inventory
+    // suppliers through inventory
     public function suppliers()
     {
         return $this->hasManyThrough(Supplier::class, Inventory::class,'inventory_manager_id','inventory_id');
-        // return $this->inventory->supplier;
+
     }
 
+    // items through inventory
     public function items(){
       return $this->inventory->items;
     }
 
+    // manager has many suppliers
+    // and suppliers has many transactions
+    // so collect all this transaction in one array
     public function transactions(){
       $transactions = collect();
       foreach( $this->items() as $item ){
@@ -67,6 +65,7 @@ class User extends Authenticatable
 
       return $transactions->flatten();
     }
+
 
 
     public function addManager($manager){
@@ -78,12 +77,12 @@ class User extends Authenticatable
         'password' => bcrypt($manager['password']),
       ]);
 
-
       $inventory = Inventory::find($manager['inventory']);
       $user->inventory()->save($inventory);
 
       return $user;
     }
+
 
     public function edit($manager){
 

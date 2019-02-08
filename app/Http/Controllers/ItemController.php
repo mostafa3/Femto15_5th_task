@@ -20,7 +20,8 @@ class ItemController extends Controller
 
     public function index()
     {
-      // his own for manager and all suppliers for admin
+      // view all items for admin
+      // but in case of manager view only his own items
       if(\Gate::allows('view_all',Item::class))
         $items = Item::all();
       elseif(\Gate::allows('view_his_own',Item::class))
@@ -33,7 +34,7 @@ class ItemController extends Controller
     public function create()
     {
 
-      // suppliers for this manager
+      
       $this->authorize('create',Item::class);
         $suppliers = Auth::user()->suppliers;
 

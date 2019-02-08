@@ -16,27 +16,19 @@ class EmptyInventory implements Rule
 
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
+
     public function passes($attribute, $value)
     {
+      // when assign new manager to inventory
       // the inventory must has no manager
+
         $inventory = Inventory::find($value);
           return $inventory ? !$inventory->inventory_manager_id  : false;
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
+
     public function message()
     {
-        return 'The inventory has manager, delete the manager first then attach a new one.';
+        return 'The inventory has manager.';
     }
 }

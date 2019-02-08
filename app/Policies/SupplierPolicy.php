@@ -10,19 +10,15 @@ class SupplierPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view the supplier.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Supplier  $supplier
-     * @return mixed
-     */
     public function view(User $user, Supplier $supplier)
     {
+      // admin can view any supplier
+      // but the manager can view only his suppliers
         return $user->is_admin() || $user->suppliers->contains($supplier->id);
     }
 
     public function view_all(User $user){
+      // only the admin can view all item
       return $user->is_admin();
     }
 
@@ -32,41 +28,24 @@ class SupplierPolicy
 
     public function create(User $user)
     {
+      // only manager can create new supplier
         return $user->is_manager();
     }
 
-    /**
-     * Determine whether the user can update the supplier.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Supplier  $supplier
-     * @return mixed
-     */
     public function update(User $user, Supplier $supplier)
     {
+      // only manager can update supplier
+      // but only his own suppliers
         return $user->is_manager() && $user->suppliers->contains($supplier->id);
     }
 
     public function delete(User $user, Supplier $supplier)
     {
+      // only manager can delete suppliers
+      // but only his own suppliers
         return $user->is_manager() && $user->suppliers->contains($supplier->id);
     }
 
 
-    public function restore(User $user, Supplier $supplier)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the supplier.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Supplier  $supplier
-     * @return mixed
-     */
-    public function forceDelete(User $user, Supplier $supplier)
-    {
-        //
-    }
+  
 }

@@ -18,23 +18,16 @@ class EnoughAmount implements Rule
         $this->transaction_type = $transaction_type;
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
+
     public function passes($attribute, $value)
     {
+      // when makeing transaction on specific item
+      // manager can add amount at any time
+      // but when consuming , the amount should be enough to commit this transaction
         return $this->transaction_type === 'add' ? true : $this->item->available() >= $value ;
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
+  
     public function message()
     {
         return 'The amount is not enough, only '.$this->item->available() .' '.$this->item->unit.' is available.';

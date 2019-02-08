@@ -18,9 +18,8 @@ class InventoryController extends Controller
 
     public function index()
     {
-      // inventories for this manager not all inventories
-      // if admin get all inventories
-
+      // view all inventories for admin
+      // but in case of manager view only his own inventories
         if(\Gate::allows('view_all',Inventory::class))
             $inventories = Inventory::all();
         elseif(\Gate::allows('view_his_own',Inventory::class))

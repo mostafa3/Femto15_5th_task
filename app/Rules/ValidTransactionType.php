@@ -16,25 +16,16 @@ class ValidTransactionType implements Rule
 
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
+
     public function passes($attribute, $value)
     {
-      $units = collect(['add', 'consume']);
+      // only add or consume for now
+      $types = collect(['add', 'consume']);
 
-      return $units->contains($value);
+      return $types->contains($value);
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
+
     public function message()
     {
         return 'You can only add or consume items .';

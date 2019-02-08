@@ -14,6 +14,8 @@ class TransactionPolicy
 
      public function view(User $user, Transaction $transaction)
      {
+       // admin can view all transactions
+       // but the manager can view only his transactions
          return $user->is_admin() || $user->transactions()->contains($transaction->id);
      }
 
@@ -27,6 +29,7 @@ class TransactionPolicy
 
      public function create(User $user)
      {
+       // only managers can make transactions
          return $user->is_manager();
      }
 

@@ -7,11 +7,9 @@ use App\Http\Middleware\RedirectionToRole;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
+    //nothing here except redirection according user role
+
     public function __construct()
     {
         $this->middleware('auth');

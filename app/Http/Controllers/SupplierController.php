@@ -17,7 +17,8 @@ class SupplierController extends Controller
 
     public function index()
     {
-      // his own for manager and all suppliers for admin
+      // view all suppliers for admin
+      // but in case of manager view only his own suppliers
       if(\Gate::allows('view_all',Supplier::class))
         $suppliers = Supplier::all();
       elseif(\Gate::allows('view_his_own',Supplier::class))
@@ -53,7 +54,7 @@ class SupplierController extends Controller
     public function show(Supplier $supplier)
     {
 
-      // manager can only show his suppliers but admin can do it for all
+
       $this->authorize('view',$supplier);
         return view('suppliers.show',['supplier'=>$supplier]);
     }
@@ -61,7 +62,7 @@ class SupplierController extends Controller
 
     public function edit(Supplier $supplier)
     {
-      // manager can only show his suppliers but admin cannot do it for all
+
       $this->authorize('update',$supplier);
         return view('suppliers.edit',['supplier'=>$supplier]);
     }
@@ -69,7 +70,7 @@ class SupplierController extends Controller
 
     public function update(Supplier $supplier)
     {
-      // manager can only show his suppliers but admin cannot do it for all
+
       $this->authorize('update',$supplier);
       $supplier->update(request()->validate([
         'name' => 'required',
@@ -84,7 +85,7 @@ class SupplierController extends Controller
 
     public function destroy(Supplier $supplier)
     {
-      // manager can only show his suppliers but admin cannot do it for all
+      
       $this->authorize('delete',$supplier);
         $supplier->delete();
         return redirect(action('SupplierController@index'))->with('success','Supplier Deleted!');

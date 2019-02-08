@@ -24,7 +24,7 @@ class Item extends Model
       $supplier->items()->create($item);
     }
 
-
+    // get all the added transactions
     public function add_transactions(){
       return $this->transactions->filter(function($transaction, $key){
         return $transaction->type == 'add';
@@ -32,6 +32,7 @@ class Item extends Model
 
     }
 
+    // get all the consumed transactions
     public function consume_transactions(){
       return $this->transactions->filter(function($transaction, $key){
         return $transaction->type == 'consume';
@@ -39,7 +40,7 @@ class Item extends Model
 
     }
 
-
+    // show the existing amont of item in inventory
     public function available(){
 
       $added = $this->add_transactions();

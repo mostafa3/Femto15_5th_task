@@ -20,6 +20,9 @@ class InventoryManagerController extends Controller
 
     public function index()
     {
+      // view all manager for admin
+      // but in case of manager view only himself
+
         if(\Gate::allows('view_all',User::class))
           $managers = Role::where('role_name','Inventory Manager')->first()->users;
         elseif(\Gate::allows('view_himself',User::class))
@@ -32,7 +35,7 @@ class InventoryManagerController extends Controller
 
     public function create()
     {
-      //admin only
+
       $this->authorize('create',User::class);
         $inventories = Inventory::where('inventory_manager_id',NULL)->get();
         return view('managers.create',compact('inventories'));
@@ -41,7 +44,7 @@ class InventoryManagerController extends Controller
 
     public function store(User $manager)
     {
-      //admin only
+
       $this->authorize('create',Auth::user());
       $inventory = Inventory::find(request()['inventory']);
 
@@ -59,7 +62,7 @@ class InventoryManagerController extends Controller
 
     public function show(User $inventory_manager)
     {
-      //admin or the same manager
+
 
       $this->authorize('view', $inventory_manager);
         return   view('managers.show',['inventory_manager'=>$inventory_manager]) ;
@@ -68,7 +71,7 @@ class InventoryManagerController extends Controller
 
     public function edit(User $inventory_manager)
     {
-      //admin or the same manager
+
       $this->authorize('update', $inventory_manager);
 
       $inventories = Inventory::where('inventory_manager_id',NULL)->get();
@@ -78,10 +81,8 @@ class InventoryManagerController extends Controller
 
     public function update(User $inventory_manager)
     {
-      // admin or the same manager
-      $this->authorize('update', $inventory_manager);
-// managers only not admin
 
+      $this->authorize('update', $inventory_manager);
 
       $inventory_manager->edit(
         request()->validate([

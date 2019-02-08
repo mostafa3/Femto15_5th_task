@@ -22,7 +22,8 @@ class TransactionController extends Controller
     }
 
     public function index(){
-      // his own for manager and all transactions for admin
+      // view all transactions for admin
+      // but in case of manager view only his own transactions
       if(\Gate::allows('view_all',Transaction::class))
         $transactions = Transaction::all();
       elseif(\Gate::allows('view_his_own',Transaction::class))
@@ -34,8 +35,9 @@ class TransactionController extends Controller
 
 
     public function create(){
-      // items for this manager
+
       $this->authorize('create',Transaction::class);
+        // items for this manager
       $user = Auth::user();
       $items =  $user->items() ;
       return view('transactions.create',compact('items'));
